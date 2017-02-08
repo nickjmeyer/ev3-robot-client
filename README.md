@@ -1,5 +1,7 @@
 # Ev3-robot-client over WiFi
 
+After cloning, don't forget to initialize the Asio submodule.
+
 ## Creating Docker image for Ev3
 - Install Docker `sudo apt install docker`.
 - Download the Ev3Dev base image `docker pull
@@ -8,27 +10,35 @@
 - Start docker `docker run --name="ev3-controller" -it -v ~/:/src
   ev3-base`.
 - Login as robot `login robot`. Password is `maker`.
-- Create directory for asio `mkdir ~/libraries`.
-- Copy asio `cp -r /src/libraries/asio ~/libraries`.
+- Need to install g++ 5 or higher.
+  - Add `deb http://ftp.us.debian.org/debian testing main contrib
+    non-free` to `/etc/apt/sources.list`.
+  - Add the following lines to `/etc/apt/preferences.d/gplusplus`
+    - `Package: g++`
+    - `Pin: release a=testing`
+    - `Pin-Priority: 100`
+  - Update `sudo apt-get update`
+  - Install `sudo apt-get install -t testing g++`
 - Install libraries `sudo apt-get install build-essential cmake
-  libprotobuf-dev protobuf-compiler`.
-- Copy controller code `cp -r /src/ev3dev/ev3-controller ~/`.
-- Move into build directory `cd ~/ev3-controller/build`.
+  libprotobuf-dev protobuf-compiler libgflags-dev libgoogle-glog-dev`.
+- Copy controller code `cp -r /src/ev3dev/ev3-robot-client ~/`.
+- Move into build directory `cd ~/ev3-robot-client/build`.
 - Remove desktop build code `rm -r *`.
 - Set up to build for Ev3 `cmake -DCMAKE_BUILD_TYPE=Release
-  -DEV3_SERVER_HOSTNAME=YOUR.SERVER -DBUILD_FOR_EV3=ON .. && make`
-  where `YOUR.SERVER` is the address of the machine running the server
-  code.
+  -DBUILD_FOR_EV3=ON .. && make`.
 - Create a shortcut `cd ~/ && ln -sr
-  ~/ev3-controller/build/src/main/ev3Client ev3Client`.
+  ~/ev3-robot-client/build/src/main/ev3Client ev3Client`.
+- Add shell script with ip.  Put the following lines in `ev3Client.sh`
+  - `#!/bin/bash`
+  - `~/ev3Client --hostname="SERVER.IP.ADDRESS"`
+- Make executable `chmod +x ev3Client.sh`.
 - Log out of user robot `exit`.
 - Exit docker `exit`.
-- Commit Docker container `docker commit ev3-controller
-  ev3-controller`
+- Commit Docker container `docker commit ev3-robot-client
+  ev3-robot-client`
 - Navigate to top of working directory `cd ~/ev3dev`.
-- Clone Brickstrap `git clone git clone
-  git://github.com/ev3dev/brickstrap`.
-- Navigate to Brickstrap `cd ~/ev3dev/brickstrap`.
+- Clone Brickstrap `git clone
+  https://github.com/ev3dev/brickstrap`.
 - Install packages `sudo apt-get install docker-engine
   libguestfs-tools qemu-user-static`.
 - If you have never used `libguestfs` before, set it up.
@@ -36,9 +46,9 @@
   - `sudo usermod -a -G kvm $USER`
   - `newgrp kvm`
   - `sudo chmod +r /boot/vmlinuz*`
-- Create tar from Docker image `./src/brickstrap.sh create-tar
-  ev3-controller ev3-controller.tar`.
-- Create image from tar `./src/brickstrap.sh create-image
-  ev3-controller.tar ev3-controller.img`.
+- Create tar from Docker image `./brickstrap/src/brickstrap.sh create-tar
+  ev3-robot-client ev3-robot-client.tar`.
+- Create image from tar `./brickstrap/src/brickstrap.sh create-image
+  ev3-robot-client.tar ev3-robot-client.img`.
 - Burn the image to an SD-card using the instructions on
   the [ev3-dev website](http://www.ev3dev.org/docs/getting-started/).
