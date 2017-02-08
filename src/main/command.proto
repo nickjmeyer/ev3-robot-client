@@ -1,0 +1,19 @@
+syntax = "proto2";
+
+package Ev3Controller;
+
+message Ev3Command {
+  enum Type {
+    INIT = 0;
+    QUIT = 1;
+    NEWROBOT = 2;
+    DELROBOT = 3;
+    DRIVE = 4;
+  }
+
+  optional string id = 1;
+  optional Type type = 2;
+
+  optional float xvel = 3;
+  optional float zrot = 4;
+}
