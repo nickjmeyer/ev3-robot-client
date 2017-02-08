@@ -10,9 +10,12 @@
 #include <functional>
 #include <chrono>
 #include <glog/logging.h>
+#include <gflags/gflags.h>
 
 #define STRINGIFY(x) #x
 #define TOSTRING(x) STRINGIFY(x)
+
+DEFINE_string(hostname, "localhost", "Host name of server");
 
 namespace Ev3Controller {
 
@@ -184,8 +187,7 @@ int main( int argc, char * argv[] )
 {
     google::InitGoogleLogging(argv[0]);
 
-    std::string hostname = TOSTRING(EV3_SERVER_HOSTNAME);
-    LOG(INFO) << "Hostname: " << hostname << ".";
+    LOG(INFO) << "Hostname: " << FLAGS_hostname << ".";
 
     std::shared_ptr<Ev3Controller::Ev3Client> ev3Client(
             new Ev3Controller::Ev3Client() );
@@ -194,7 +196,7 @@ int main( int argc, char * argv[] )
 
     std::shared_ptr< Ev3Controller::Ev3ClientConnection > connection(
             new Ev3Controller::Ev3ClientConnection( ev3Client,hive ) );
-    connection->Connect( hostname , 7777 );
+    connection->Connect( FLAGS_hostname , 7777 );
 
     std::thread worker_thread(
             std::bind(&Ev3Controller::ClientRunThread, hive));

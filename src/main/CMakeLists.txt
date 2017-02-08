@@ -13,11 +13,11 @@ if(BUILD_FOR_EV3)
   add_executable(ev3Client ev3Client.cpp ev3Robot.cpp ev3dev.cpp
     ${PROTO_SRCS} ${PROTO_HDRS})
   target_link_libraries(ev3Client networkWrapper
-    ${PROTOBUF_LIBRARY} ${GLOG_LIBRARIES})
+    ${PROTOBUF_LIBRARY} ${GLOG_LIBRARIES} ${GFLAGS_LIBRARIES})
 else()
   # client
   add_executable(ev3Client ev3Client.cpp ev3Robot.cpp
     ${PROTO_SRCS} ${PROTO_HDRS})
   target_link_libraries(ev3Client networkWrapper
-    ${PROTOBUF_LIBRARY} ${GLOG_LIBRARIES})
+    ${PROTOBUF_LIBRARY} ${GLOG_LIBRARIES} ${GFLAGS_LIBRARIES})
 endif()
