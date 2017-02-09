@@ -3,6 +3,9 @@
 After cloning, don't forget to initialize the Asio submodule.
 
 ## Creating Docker image for Ev3
+- Clone repository `mkdir -p ~/ev3dev && cd ~/ev3dev && git clone
+  https://github.com/nickjmeyer/ev3-robot-client`
+- Asio submodule `git submodule init && git submodule update`
 - Install Docker `sudo apt install docker`.
 - Download the Ev3Dev base image `docker pull
   ev3dev/ev3dev-jessie-ev3-base`.
@@ -11,16 +14,14 @@ After cloning, don't forget to initialize the Asio submodule.
   ev3-base`.
 - Login as robot `login robot`. Password is `maker`.
 - Update package archive `sudo apt-get update`.
-- Upgrade packages `sudo apt-get upgrade`.
 - Need to install g++ 5 or higher.
   - Add `deb http://ftp.us.debian.org/debian testing main contrib
-    non-free` to `/etc/apt/sources.list`.
+    non-free` to `/etc/apt/sources.list.d/testing.list`.
   - Add the following lines to `/etc/apt/preferences.d/gplusplus`
     - `Package: g++`
     - `Pin: release a=testing`
     - `Pin-Priority: 100`
   - Update `sudo apt-get update`.
-  - Upgrade existing packages `sudo apt-get upgrade`.
   - Install `sudo apt-get install -t testing g++`
 - Install libraries `sudo apt-get install build-essential cmake
   libprotobuf-dev protobuf-compiler libgflags-dev libgoogle-glog-dev`.
