@@ -12,9 +12,6 @@
 #include <glog/logging.h>
 #include <gflags/gflags.h>
 
-#define STRINGIFY(x) #x
-#define TOSTRING(x) STRINGIFY(x)
-
 DEFINE_string(hostname, "localhost", "Host name of server");
 
 namespace Ev3Controller {
