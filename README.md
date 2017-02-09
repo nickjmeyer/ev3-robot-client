@@ -7,9 +7,11 @@ After cloning, don't forget to initialize the Asio submodule.
 - Download the Ev3Dev base image `docker pull
   ev3dev/ev3dev-jessie-ev3-base`.
 - Tag image `docker tag ev3dev/ev3dev-jessie-ev3-base ev3-base`.
-- Start docker `docker run --name="ev3-controller" -it -v ~/:/src
+- Start docker `docker run --name="ev3-robot-client" -it -v ~/:/src
   ev3-base`.
 - Login as robot `login robot`. Password is `maker`.
+- Update package archive `sudo apt-get update`.
+- Upgrade packages `sudo apt-get upgrade`.
 - Need to install g++ 5 or higher.
   - Add `deb http://ftp.us.debian.org/debian testing main contrib
     non-free` to `/etc/apt/sources.list`.
@@ -17,7 +19,8 @@ After cloning, don't forget to initialize the Asio submodule.
     - `Package: g++`
     - `Pin: release a=testing`
     - `Pin-Priority: 100`
-  - Update `sudo apt-get update`
+  - Update `sudo apt-get update`.
+  - Upgrade existing packages `sudo apt-get upgrade`.
   - Install `sudo apt-get install -t testing g++`
 - Install libraries `sudo apt-get install build-essential cmake
   libprotobuf-dev protobuf-compiler libgflags-dev libgoogle-glog-dev`.
@@ -26,11 +29,10 @@ After cloning, don't forget to initialize the Asio submodule.
 - Remove desktop build code `rm -r *`.
 - Set up to build for Ev3 `cmake -DCMAKE_BUILD_TYPE=Release
   -DBUILD_FOR_EV3=ON .. && make`.
-- Create a shortcut `cd ~/ && ln -sr
-  ~/ev3-robot-client/build/src/main/ev3Client ev3Client`.
-- Add shell script with ip.  Put the following lines in `ev3Client.sh`
+- Go to home directory `cd ~/`.
+- Add shell script and specify ip of host server.  Put the following lines in `ev3Client.sh`
   - `#!/bin/bash`
-  - `~/ev3Client --hostname="SERVER.IP.ADDRESS"`
+  - `~/ev3-robot-client/build/src/main/ev3Client --hostname="HOST.SERVER.IP.ADDRESS"`
 - Make executable `chmod +x ev3Client.sh`.
 - Log out of user robot `exit`.
 - Exit docker `exit`.
