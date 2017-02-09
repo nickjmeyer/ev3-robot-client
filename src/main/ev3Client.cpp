@@ -182,6 +182,7 @@ std::shared_ptr<Connection> Ev3ClientConnection::NewConnection () {
 
 int main( int argc, char * argv[] )
 {
+    gflags::ParseCommandLineFlags(&argc, &argv, true);
     google::InitGoogleLogging(argv[0]);
 
     LOG(INFO) << "Hostname: " << FLAGS_hostname << ".";
