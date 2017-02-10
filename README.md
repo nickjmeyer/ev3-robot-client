@@ -1,11 +1,12 @@
 # Ev3-robot-client over WiFi
 
 ## Running on desktop
+- Install Google Logging `sudo apt install libgoogle-glog-dev`.
 - Clone repository `mkdir -p ~/ev3dev && cd ~/ev3dev && git clone
   https://github.com/nickjmeyer/ev3-robot-client`
 - Asio submodule `git submodule init && git submodule update`
 - Create build directory `mkdir build && cd build`.
-- Build client `cmake -DCMAKE_BUILD_TYPE=Release ..`.
+- Build client `cmake -DCMAKE_BUILD_TYPE=Release .. && make`.
 - Run the client `./src/main/ev3Client`
 - The hostname of the host server can be set using the command line
   flag `--hostname`.  This defaults to `localhost`.
