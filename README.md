@@ -44,6 +44,9 @@
   - `#!/bin/bash`
   - `~/ev3-robot-client/build/src/main/ev3Client --hostname="HOST.SERVER.IP.ADDRESS"`
 - Make executable `chmod +x ev3Client.sh`.
+- Link executables for convenience.
+  - `ln -s ~/ev3-robot-client/build/src/main/ev3Client ~/`
+  - `ln -s ~/ev3-robot-client/build/src/main/ev3Brake ~/`
 - Log out of user robot `exit`.
 - Exit docker `exit`.
 - Commit Docker container `docker commit ev3-robot-client
