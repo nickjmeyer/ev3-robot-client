@@ -18,7 +18,7 @@ if(BUILD_FOR_EV3)
   # brake script
   add_executable(ev3Brake ev3Brake.cpp ev3Robot.cpp ev3dev.cpp
     ${PROTO_SRCS} ${PROTO_HDRS})
-  target_link_libraries(ev3Client networkWrapper
+  target_link_libraries(ev3Brake networkWrapper
     ${PROTOBUF_LIBRARY} ${GLOG_LIBRARIES} ${GFLAGS_LIBRARIES})
 else()
   # client
