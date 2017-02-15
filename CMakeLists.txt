@@ -22,9 +22,6 @@ find_package(GFlags REQUIRED)
 
 if(BUILD_FOR_EV3)
   add_definitions(-DBUILD_FOR_EV3)
-else()
-  set(CURSES_NEED_NCURSES TRUE)
-  find_package(Curses REQUIRED)
 endif()
 
 add_subdirectory(src/main)

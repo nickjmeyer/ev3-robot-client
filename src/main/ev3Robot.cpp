@@ -25,28 +25,35 @@ void Ev3Robot::setVelocity(const Ev3Command & command){
     z_a = command.zrot();
 
 #ifdef BUILD_FOR_EV3
-    double left_sp = x_l - (1.0 - 2.0*(x_l < 0)) * z_a * this->wheelBase;
-    double right_sp = x_l + (1.0 - 2.0*(x_l < 0)) * z_a * this->wheelBase;
+    if (x_l == 0.0 && z_a == 0.0) {
+        this->leftMotor.stop();
+        this->rightMotor.stop();
+        std::cout << "Set motor speeds"
+                  << "(" << 0.0 << ", " << 0.0 << ")"
+                  << std::endl;
+    } else {
+        double left_sp = x_l - (1.0 - 2.0*(x_l < 0)) * z_a * this->wheelBase;
+        double right_sp = x_l + (1.0 - 2.0*(x_l < 0)) * z_a * this->wheelBase;
 
-    if(left_sp > 100.0)
-        left_sp = 100.0;
-    else if(left_sp < -100.0)
-        left_sp = -100.0;
+        if(left_sp > 100.0)
+            left_sp = 100.0;
+        else if(left_sp < -100.0)
+            left_sp = -100.0;
 
-    if(right_sp > 100.0)
-        right_sp = 100.0;
-    else if(right_sp < -100.0)
-        right_sp = -100.0;
+        if(right_sp > 100.0)
+            right_sp = 100.0;
+        else if(right_sp < -100.0)
+            right_sp = -100.0;
 
 
-    this->leftMotor.set_duty_cycle_sp(left_sp);
-    this->rightMotor.set_duty_cycle_sp(right_sp);
-    this->leftMotor.run_direct();
-    this->rightMotor.run_direct();
-    std::cout << "Set motor speeds"
-              << "(" << left_sp << ", " << right_sp << ")"
-              << std::endl;
-
+        this->leftMotor.set_duty_cycle_sp(left_sp);
+        this->rightMotor.set_duty_cycle_sp(right_sp);
+        this->leftMotor.run_direct();
+        this->rightMotor.run_direct();
+        std::cout << "Set motor speeds"
+                  << "(" << left_sp << ", " << right_sp << ")"
+                  << std::endl;
+    }
 #endif
 
     this->logVelocity();
@@ -59,5 +66,14 @@ void Ev3Robot::logVelocity(){
     ss << "speed: [" << x_l << ", " << z_a << "]";
     std::cout << ss.str() << std::endl;
 }
+
+
+void Ev3Robot::brake() {
+    Ev3Command command;
+    command.set_xvel(0.0);
+    command.set_zrot(0.0);
+    this->setVelocity(command);
+}
+
 
 } // namespace Ev3Controller

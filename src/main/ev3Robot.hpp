@@ -24,7 +24,10 @@ public:
 #endif
 
     void setVelocity(const Ev3Command & command);
+
     void logVelocity();
+
+    void brake();
 
 private:
     double x_l;
